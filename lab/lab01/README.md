@@ -9,6 +9,4 @@
 
 ###  Итоговая графическая схема:
 
-![][def]
-
-[def]: ip-addresses.png
+![](lab01-vlan.png)
