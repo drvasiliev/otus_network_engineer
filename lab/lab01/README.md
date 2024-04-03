@@ -9,4 +9,6 @@
 
 ###  Итоговая графическая схема:
 
-![](ip-addresses.png)
+![][def]
+
+[def]: ip-addresses.png
