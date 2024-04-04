@@ -1,30 +1,49 @@
 
-Current configuration : 3465 bytes
+Current configuration : 3714 bytes
 !
-! Last configuration change at 18:12:43 UTC Thu Apr 4 2024
+! Last configuration change at 18:26:35 UTC Thu Apr 4 2024
 !
-version 15.5
+version 15.2
 service timestamps debug datetime msec
 service timestamps log datetime msec
 service password-encryption
+service compress-config
 !
-hostname R1
+hostname S1
 !
 boot-start-marker
 boot-end-marker
 !
 !
-enable secret 5 $1$FUns$69CiHzn22sV/Fq9gvcM9a/
+enable secret 5 $1$NlS0$G9AqPmbDuLCMd5RXsgf.2/
 !
 no aaa new-model
-ethernet lmi ce
 !
 !
 !
-mmi polling-interval 60
-no mmi auto-configure
-no mmi pvc
-mmi snmp-timeout 180
+
+S1#show run
+Building configuration...
+
+Current configuration : 3714 bytes
+!
+! Last configuration change at 18:26:35 UTC Thu Apr 4 2024
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$NlS0$G9AqPmbDuLCMd5RXsgf.2/
+!
+no aaa new-model
 !
 !
 !
@@ -33,21 +52,16 @@ mmi snmp-timeout 180
 !
 !
 !
-!
-!
-!
-no ip domain lookup
+no ip domain-lookup
 ip cef
 no ipv6 cef
 !
-multilink bundle-name authenticated
 !
 !
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
 !
-!
-!
-redundancy
-!
+vlan internal allocation policy ascending
 !
 !
 !
@@ -63,51 +77,61 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- no ip address
+ switchport access vlan 7
+ switchport mode access
  shutdown
- duplex auto
- speed auto
  media-type rj45
+ negotiation auto
 !
 interface GigabitEthernet0/1
- no ip address
- duplex auto
- speed auto
+ description to_R1_Gi0/1
+ switchport trunk allowed vlan 3,4,8
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
+ switchport mode trunk
  media-type rj45
-!
-interface GigabitEthernet0/1.3
- description Managment
- encapsulation dot1Q 3
- ip address 192.168.3.1 255.255.255.0
-!
-interface GigabitEthernet0/1.4
- description Operations
- encapsulation dot1Q 4
- ip address 192.168.4.1 255.255.255.0
-!
-interface GigabitEthernet0/1.8
- description Native
- encapsulation dot1Q 8 native
+ negotiation auto
 !
 interface GigabitEthernet0/2
- no ip address
- shutdown
- duplex auto
- speed auto
+ description to_S2_Gi0/2
+ switchport trunk allowed vlan 3,4,8
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
+ switchport mode trunk
  media-type rj45
+ negotiation auto
 !
 interface GigabitEthernet0/3
- no ip address
+ switchport access vlan 7
+ switchport mode access
  shutdown
- duplex auto
- speed auto
  media-type rj45
+ negotiation auto
 !
+interface GigabitEthernet1/0
+ description to_PC-A
+ switchport access vlan 3
+ switchport mode access
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ media-type rj45
+ negotiation auto
+!
+interface Vlan3
+ ip address 192.168.3.11 255.255.255.0
+!
+ip default-gateway 192.168.3.1
 ip forward-protocol nd
-!
 !
 no ip http server
 no ip http secure-server
+!
+!
 !
 !
 !
@@ -144,19 +168,15 @@ banner login ^C
 banner motd ^Cunauthorized access is prohibited^C
 !
 line con 0
- password 7 05080F1C2243
+ password 7 1511021F0725
  login
 line aux 0
 line vty 0 4
- password 7 01100F175804
+ password 7 060506324F41
  login
- transport input none
 line vty 5 15
- password 7 01100F175804
+ password 7 060506324F41
  login
- transport input none
 !
-no scheduler allocate
 !
 end
-
