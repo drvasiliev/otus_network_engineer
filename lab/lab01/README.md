@@ -30,7 +30,7 @@
         line vty 0 15
         password cisco
         login
-        service passowrd-encryption
+        service password-encryption
         banner motd "unauthorized access is prohibited"
         clock set 17:15:00 4 apr 2024
         copy running-config startup-config
@@ -53,7 +53,7 @@
             vlan 4 
             name Operations
             vlan 7
-            name ParkinkLot
+            name ParkingLot
             vlan 8
             name Native
 ```
@@ -80,15 +80,85 @@
             switchport access vlan 3
 ```
 
+### 3.Настройте 802.1Q Между коммутаторами
+         Шаг1: Настройка портов на S1 и S2 Gi0/2
+        Пример настройки:
+    
+```
+        S1
+    en
+        conf ter
+           interface GigabitEthernet0/2
+            description to_S2_Gi0/2
+            switchport trunk allowed vlan 3,4,8
+            switchport trunk encapsulation dot1q
+            switchport trunk native vlan 8
+            switchport mode trunk
+
+```
+
+        Шаг2: Настройка порта на S1 Gi0/1
+
+        ```
+        S1
+    en
+        conf ter
+           interface GigabitEthernet0/1
+            description to_R1_Gi0/
+            switchport trunk allowed vlan 3,4,8
+            switchport trunk encapsulation dot1q
+            switchport trunk native vlan 8
+            switchport mode trunk
+
+```
+
+### 4.Настройка маршрутизации между VLAN на маршрутизаторе
+        Шаг1: Настройка R1
+        Пример настройки:
+    
+```
+        R1
+    en
+        conf ter
+            interface gi0/1.3
+            description Managment
+            encapsulation dot1Q 3
+            ip address 192.168.3.1 255.255.255.0
+            exit
+
+            nterface gi0/1.4
+            description Operation
+            encapsulation dot1Q 4
+            ip address 192.168.4.1 255.255.255.0
+            exit
+
+            nterface gi0/1.8
+            description Native
+            encapsulation dot1Q 8 native
+            ip address 192.168.8.1 255.255.255.0
+            exit
+
+
+
+```
+
+ ### 5.Проверка работы
+    Шаг1: выпонить пинги с PC-A до шлюза, PC-B и S2:
+
+![](PC-A_ping.png)
+
+    Шаг2: выпонить trace с PC-B до PC-A:
+
+![](PC-B_trace.png)
 
 
 ### Таблица адресации
 
     | Устройство  | Интерфес | IP адрес     | Маска          | Шлюз       |
     |-------------|-------------------------|----------------|------------|
-    | R1          | G0/0/1.3 | 192.168.3.1  | 255.2555.255.0 | N/A        |
-    | R1          | G0/0/1.3 | 192.168.4.1  | 255.2555.255.0 | N/A        |
-    | R1          | G0/0/1.3 | N/A          | N/A            | N/A        |
+    | R1          | G0/1.3   | 192.168.3.1  | 255.2555.255.0 | N/A        |
+    | R1          | G0/1.4   | 192.168.4.1  | 255.2555.255.0 | N/A        |
+    | R1          | G0/1.8   | N/A          | N/A            | N/A        |
     |-------------|-------------------------|----------------|------------|
     | S1          | Vlan3    | 192.168.3.11 | 255.2555.255.0 | 192.168.3.1|
     | S2          | Vlan3    | 192.168.3.12 | 255.2555.255.0 | 192.168.3.1|
