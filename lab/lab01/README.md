@@ -74,7 +74,10 @@
             switchport mode access
             switchport access vlan 7
             shutdown
-           
+        interface gi1/0
+            description PC-A
+            switchport mode access
+            switchport access vlan 3
 ```
 
 
