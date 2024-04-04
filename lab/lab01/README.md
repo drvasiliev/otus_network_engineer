@@ -41,14 +41,32 @@
 ```
 
 ### 2.Создайте VLAN и назначьте порты коммутатора
-
+        Шаг1: Создайте VLAN на обоих коммутаторах
         Пример настройки:
     
 ```
-        ip 192.168.3.1/24 192.168.3.1
+        S1
+    en
+        conf ter
+            vlan 3
+            name Managment
+            vlan 4 
+            name Operations
+            vlan 7
+            name ParkinkLot
+            vlan 8
+            name Native
 ```
 
+        Шаг2: Назначьте VLAN правильным интерфейсам коммутатора
+        Пример настройки:
 
+```
+        S1
+    en
+        conf ter
+           
+```
 
 
 
