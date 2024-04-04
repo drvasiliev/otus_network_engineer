@@ -65,6 +65,14 @@
         S1
     en
         conf ter
+            interface vlan 3 
+            ip address 192.168.3.11 255.255.255.0
+            ip default-gateway 192.168.3.1
+
+            interface range gi0/0, gi0/3, gi1/1
+            switchport mode access
+            switchport access vlan 7
+            shutdown
            
 ```
 
