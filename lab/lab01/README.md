@@ -127,7 +127,6 @@
             nterface gi0/1.8
             description Native
             encapsulation dot1Q 8 native
-            ip address 192.168.8.1 255.255.255.0
             exit
 ```
 
