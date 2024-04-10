@@ -22,4 +22,34 @@
     Часть 3. Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов
     Часть 4. Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов
 
-    
+
+ ###    1. Создание сети и настройка основных параметров
+ ##### Лабораторная работа проводилась в Cisco Pacet Trace
+    Пример настройки одно из коммутаторов:
+
+```
+en
+    conf ter
+    hostname S1
+    no ip domain-lookup
+    enable secret class
+line 0
+    password cisco
+    logging synchronous
+    login
+line vty 0 4
+    password cisco
+    login
+line vty 5 15
+    password cisco
+    login
+
+banner motd "unauthorized access is prohibited"
+
+interface vlan 1
+    ip address 192.168.1.1 255.255.255.0
+    no shutdown
+
+copy running-config startup-config
+
+```
