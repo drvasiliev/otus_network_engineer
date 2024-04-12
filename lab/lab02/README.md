@@ -159,3 +159,62 @@ Fa0/2            Altn BLK 19        128.2    P2p
     6.Почему протокол spanning-tree выбрал этот порт в качестве невыделенного (заблокированного) порта?
 ###### STP блокирует порт Fa0/2 на коммутаторе S3 так как у него самый высокий BID
 
+###    Часть 3:	Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов
+Почему протокол spanning-tree заменяет ранее заблокированный порт на назначенный порт и блокирует порт, который был назначенным портом на другом коммутаторе?
+    Потому что теперь STP считает что путь через порт Fa0/2 на S3 лучше до корневого коммутатора.
+
+### Часть 4:	Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов
+
+
+```
+S2# show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0005.5E86.6E41
+             Cost        19
+             Port        1(FastEthernet0/1)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     000C.85B3.4D89
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/3            Desg FWD 19        128.3    P2p
+Fa0/1            Root FWD 19        128.1    P2p
+Fa0/4            Desg FWD 19        128.4    P2p
+Fa0/2            Altn BLK 19        128.2    P2p
+
+```
+
+
+```
+S3#show spanning-tree 
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0005.5E86.6E41
+             Cost        19
+             Port        3(FastEthernet0/3)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00E0.F731.409B
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/3            Root FWD 19        128.3    P2p
+Fa0/1            Altn BLK 19        128.1    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+Fa0/2            Altn BLK 19        128.2    P2p
+```
+
+1. Какой порт выбран протоколом STP в качестве порта корневого моста на каждом коммутаторе некорневого моста?
+###### S2 Fa0/1, S3 Fa0/3.
+2. Почему протокол STP выбрал эти порты в качестве портов корневого моста на этих коммутаторах?
+###### У S2 STP выбрал порт Fa0/1 рутом потому что у него самый низкий идентификатор (он самый меньший порт). На S3 выбран порт Fa03 рутом, так как на S1 порт Fa03 меньший порт и STP заблокировал порт Fa0/4 на S3.
