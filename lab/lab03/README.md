@@ -149,3 +149,33 @@ e.	Сохраните текущую конфигурацию в файле ко
     conf ter
     interface e0/1
     ip address 192.168.1.97 255.255.255.240
+    no shutdown
+
+#### R1
+    en 
+    conf ter
+    interface e0/0
+    ip address 10.0.0.1 255.255.255.252
+    no shutdown
+#### R2
+    en 
+    conf ter
+    interface e0/0
+    ip address 10.0.0.2 255.255.255.252
+    no shutdown
+#### R1
+    en
+    conf ter
+    ip route 0.0.0.0 0.0.0.0 10.0.0.2  
+
+#### R2
+    en
+    conf ter
+    ip route 0.0.0.0 0.0.0.0 10.0.0.1      
+
+#### R1# 
+    ping 192.168.1.97
+    Type escape sequence to abort.
+    Sending 5, 100-byte ICMP Echos to 192.168.1.97, timeout is 2 seconds:
+    !!!!!
+    Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
