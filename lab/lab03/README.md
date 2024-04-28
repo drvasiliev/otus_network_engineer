@@ -93,8 +93,9 @@
         loging
         line vty 0 4
         password cisco
-        loging
+        login
         service password-encryption
+        banner motd "unauthorized access is prohibited"
         copy running-config startup-config
         clock set 14:30:00 28 apr 2024
 
