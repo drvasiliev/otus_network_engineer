@@ -103,7 +103,7 @@
 ##### a.	Активируйте интерфейс G0/0/1 на маршрутизаторе.
 ##### b.	Настройте вспомогательные интерфейсы для каждой VLAN в соответствии с требованиями таблицы IP-адресации. Все субинтерфейсы используют инкапсуляцию 802.1Q, и им назначается первый полезный адрес из вычисленного вами пула IP-адресов. Убедитесь, что субинтерфейсу для собственной VLAN не назначен IP-адрес. Включите описание для каждого подинтерфейса.
 ##### c.	Vубедитесь, что вспомогательные интерфейсы работают.
-
+```
     en
     conf ter
     interface e0/1 
@@ -123,13 +123,24 @@
     description Native
     encapsulation dot1Q 1000 native
 ```
+```
     R1#show ip interface brief
-Interface                  IP-Address      OK? Method Status            Protocol
+Interface                  IP-Address      OK? Method Status             Protocol
 Ethernet0/0                unassigned      YES unset  administratively down down 
 Ethernet0/1                unassigned      YES unset  up                     up
+Ethernet0/1.100            192.168.1.1     YES manual up                     up  
 Ethernet0/1.200            192.168.1.65    YES manual up                     up  
 Ethernet0/1.1000           unassigned      YES unset  up                     up  
 Ethernet0/2                unassigned      YES unset  administratively down down 
 Ethernet0/3                unassigned      YES unset  administratively down down 
 
+```
+
+##### Шаг 5: Настройте e/0/1 на R2, затем e0/0 и статическую маршрутизацию для обоих маршрутизаторов.
+```
+a.	Настройте e0/1 на R2 с первым IP-адресом подсети C, который вы рассчитали ранее.
+b.	Настройте интерфейс e0/0 для каждого маршрутизатора на основе приведенной выше таблицы IP-адресации.
+c.	Настройте маршрут по умолчанию на каждом маршрутизаторе, указывающем на IP-адрес e0/0 на другом маршрутизаторе.
+d.	Убедитесь, что статическая маршрутизация работает, отправив запрос на адрес R2 e0/1 из R1.
+e.	Сохраните текущую конфигурацию в файле конфигурации запуска.
 ```
