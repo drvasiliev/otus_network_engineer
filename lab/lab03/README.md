@@ -85,7 +85,7 @@
 #### Пример:
     en
     conf ter
-        hostname S1
+        hostname R1
         no ip domain lookup
         enable secret class
         line console 0
@@ -98,5 +98,38 @@
         banner motd "unauthorized access is prohibited"
         copy running-config startup-config
         clock set 14:30:00 28 apr 2024
+##### Шаг 4: Настройте маршрутизацию между VLAN на R1.
 
+##### a.	Активируйте интерфейс G0/0/1 на маршрутизаторе.
+##### b.	Настройте вспомогательные интерфейсы для каждой VLAN в соответствии с требованиями таблицы IP-адресации. Все субинтерфейсы используют инкапсуляцию 802.1Q, и им назначается первый полезный адрес из вычисленного вами пула IP-адресов. Убедитесь, что субинтерфейсу для собственной VLAN не назначен IP-адрес. Включите описание для каждого подинтерфейса.
+##### c.	Vубедитесь, что вспомогательные интерфейсы работают.
 
+    en
+    conf ter
+    interface e0/1 
+    no shutdown
+
+    interface e0/1.100
+    description Vlan100_Clients
+    encapsulation dot1Q 100
+    ip address 192.168.1.1 255.255.255.192
+
+    interface e0/1.200
+    description Managment
+    encapsulation dot1Q 200
+    ip address 192.168.1.65 255.255.255.224
+
+    interface e0/1.1000
+    description Native
+    encapsulation dot1Q 1000 native
+```
+    R1#show ip interface brief
+Interface                  IP-Address      OK? Method Status            Protocol
+Ethernet0/0                unassigned      YES unset  administratively down down 
+Ethernet0/1                unassigned      YES unset  up                     up
+Ethernet0/1.200            192.168.1.65    YES manual up                     up  
+Ethernet0/1.1000           unassigned      YES unset  up                     up  
+Ethernet0/2                unassigned      YES unset  administratively down down 
+Ethernet0/3                unassigned      YES unset  administratively down down 
+
+```
