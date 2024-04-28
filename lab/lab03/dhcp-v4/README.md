@@ -18,7 +18,7 @@
 |-------------|-----------------------------|----------------|-------------|
 | S1          | vlan200      | 192.168.1.66 | 255.255.255.224|192.168.1.65 |
 |-------------|-----------------------------|----------------|------------ |
-| S2          | vlan1        |              |                |             |
+| S2          | vlan1        |192.168.1.98  | 255.255.255.240|192.168.1.97 |
 |-------------|-----------------------------|----------------|-------------|
 | PC-A        | NIC          |    DHCP      |      DHCP      |   DHCP      |
 | PC-B        | NIC          |    DHCP      |      DHCP      |   DHCP      |
@@ -207,3 +207,48 @@ e.	Сохраните текущую конфигурацию в файле ко
     c.	Настройте и активируйте интерфейс управления на S2 (VLAN 1), используя второй IP-адрес из подсети, рассчитанный ранее. Дополнительно, установите шлюз по умолчанию на S2
     d.	Назначьте все неиспользуемые порты на S1 для Parking_Lot VLAN, настройте их для режима статического доступа и деактивируйте их в административном порядке. На S2 отключите все неиспользуемые порты в административном порядке.
     
+```
+    S1
+    en
+    conf ter
+    vlan 100
+    name Vlan_clients
+    vlan 200
+    name Managment
+    vlan 999
+    name Parking Lot
+    interface vlan 1000
+    name Native
+    interface vlan 200
+    ip address 192.168.1.66 255.255.255.224
+    ip default-gateway 192.168.1.65
+    copy running-config startup-config
+```
+
+```
+    S2
+    en
+    conf ter
+    interface vlan 1
+    ip address 192.168.1.98 255.255.255.224
+    ip default-gateway 192.168.1.97
+    copy running-config startup-config
+```
+```
+    S1
+    en
+    conf ter
+    interface range e0/0-1
+    switchportr mode access
+    switchport access vlan 999
+    shutdown
+    copy running-config startup-config
+```
+```
+    S2
+    en
+    conf ter
+    interface range e0/0-1
+    shutdown
+    copy running-config startup-config
+```
