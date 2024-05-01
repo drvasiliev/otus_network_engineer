@@ -331,7 +331,7 @@ R1
     en
     conf ter
     ip dhcp excluded-address 192.168.1.1 192.168.1.6
-    ip dhcp excluded-address 192.168.1.65 192.168.1.70
+    ip dhcp excluded-address 192.168.1.97 192.168.1.102
 
         ip dhcp pool LAN_Network_A
         default-router 192.168.1.1
@@ -340,8 +340,8 @@ R1
         lease 2 12 30
 
         ip dhcp pool R2_Clinet_LAN
-        network 192.168.1.64 255.255.255.224
-        default-router 192.168.1.65
+        network 192.168.1.96 255.255.255.240
+        default-router 192.168.1.97
         domain-name ccna-lab.com
         lease 2 12 30
 
