@@ -398,5 +398,10 @@ R2
 ![](R1_show_binding.png)
 
     e.	Выдайте show ip dhcp server statistics  для R1 и R2 для проверки сообщений DHCP.
+R1
 
 ![](R1_show_stat.png)
+
+R2
+
+![](R2_show_stat.png)
