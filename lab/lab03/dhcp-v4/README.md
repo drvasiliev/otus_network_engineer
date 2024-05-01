@@ -377,6 +377,26 @@ R1
 
 ##### Шаг 1: Настройте R2 в качестве агента ретрансляции DHCP для локальной сети на e0/1
 
+R2
 
+    en
+    conf ter
+    int e0/1
+    ip helper-address 10.0.0.1
+    do write
 
 ##### Шаг 2: Step 2: Попытка получить IP-адрес из DHCP на PC-B
+
+![](PC-B_dhcp.png)
+
+    c.	Проверьте подключение, отправив запрос на IP-адрес интерфейса R1 e0/1
+
+![](PC-B_ping.png)
+
+    d.	Выполните команду пshow ip dhcp binding на R1 для проверки привязок DHCP.
+
+![](R1_show_binding.png)
+
+    e.	Выдайте show ip dhcp server statistics  для R1 и R2 для проверки сообщений DHCP.
+
+![](R1_show_stat.png)
