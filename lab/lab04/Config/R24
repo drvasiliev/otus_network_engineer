@@ -1,0 +1,134 @@
+R24(config-if)#do show run
+Building configuration...
+
+Current configuration : 1340 bytes
+!
+! Last configuration change at 21:15:56 EET Wed Jun 26 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R24
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+ --More--
+*Jun 27 07:18:36.743: %LINK-3-UPDOWN: Interface Ethernet0/3, changed state to up
+*Jun 27 07:18:37.750: %LINEPROTO-5-UPDOWN: Line protocol on Interface Ethernet0/3, changed state to up
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback24
+ ip address 10.40.24.1 255.255.255.248
+!
+interface Ethernet0/0
+ description to_R21_e0/2
+ ip address 10.40.20.1 255.255.255.252
+!
+interface Ethernet0/1
+ description to_R26_e0/0
+ ip address 10.40.24.101 255.255.255.252
+!
+interface Ethernet0/2
+ description to_R23_e0/2
+ ip address 10.40.24.129 255.255.255.252
+!
+interface Ethernet0/3
+ description to_8~R18_e0/2
+ ip address 10.40.60.1 255.255.255.252
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
