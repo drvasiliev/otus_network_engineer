@@ -36,7 +36,7 @@ key chain kEIGRP – где kEIGRP название
 	key 1 – номер ключа
 		key-string cisco – где cisco сам ключ
 После чего добавляем на интерфейс аутентификацию 
-router eigrp NG   af-interface Ethernet0/1
+router eigrp NG  af-interface Ethernet0/1
    authentication mode md5
    authentication key-chain kEIGRP
 
@@ -51,7 +51,7 @@ ip prefix-list Q permit 0.0.0.0/0
 router eigrp NG
         address-family ipv4 autonomous-system 1
         topology base
-        distribute-list Q out e0/3
+        distribute-list prefix Q out e0/3
 
 ```
 Второй вариант сделать на R16 суммаризацию 0.0.0.0/0 на интерфейсе в сторону R32
