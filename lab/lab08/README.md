@@ -46,7 +46,7 @@ router eigrp NG   af-interface Ethernet0/1
 
 ```
 conf ter
-ip prefix-list Route-R3 permit 0.0.0.0/0
+ip prefix-list Q permit 0.0.0.0/0
 router eigrp NG
         address-family ipv4 autonomous-system 1
         topology base
