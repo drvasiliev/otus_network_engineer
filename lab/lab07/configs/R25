@@ -1,0 +1,94 @@
+
+Building configuration...
+
+Current configuration : 1446 bytes
+!
+! Last configuration change at 17:35:17 EET Thu Jun 27 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R25
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback25
+ description loopback
+ ip address 10.40.25.1 255.255.255.255
+!
+interface Ethernet0/0
+ description to_R23_e0/1
+ ip address 10.40.23.102 255.255.255.252
+ ip router isis 25
+!
+interface Ethernet0/1
+ description to_R27_e0/0
+ ip address 10.30.40.2 255.255.255.252
+!
+interface Ethernet0/2
+ description to_R26_e0/2
+ ip address 10.40.26.102 255.255.255.252
+ ip router isis 25
+!
+interface Ethernet0/3
+ description to_R28_e0/1
+ ip address 10.40.50.1 255.255.255.252
+!
+interface Ethernet1/0
+ no ip address
+ shutdown

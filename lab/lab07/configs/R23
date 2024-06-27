@@ -1,0 +1,136 @@
+R23#show run
+Building configuration...
+
+Current configuration : 1385 bytes
+!
+! Last configuration change at 17:48:53 EET Thu Jun 27 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R23
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback23
+ ip address 10.40.23.1 255.255.255.248
+!
+interface Ethernet0/0
+ description to_R22_e0/2
+ ip address 10.10.40.2 255.255.255.252
+!
+interface Ethernet0/1
+ description to_R25_e0/0
+ ip address 10.40.23.101 255.255.255.252
+ ip router isis 23
+!
+interface Ethernet0/2
+ description to_R24_e0/2
+ ip address 10.40.24.130 255.255.255.252
+ ip router isis 23
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router isis 23
+ net 49.2222.0100.5002.3001.00
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
