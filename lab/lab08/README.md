@@ -42,7 +42,7 @@ router eigrp NG   af-interface Ethernet0/1
 Выполнить надо с обеих сторон.
 ```
 ###    Задча: 2. R32 получает только маршрут по умолчанию.
-Создадим prefix-list на R16 в сторону R32 и будем передавать только маршрут по умолчанию 0.0.0.0/0, после чего добавим на интерфейс
+первый варина создадим prefix-list на R16 в сторону R32 и будем передавать только маршрут по умолчанию 0.0.0.0/0, после чего добавим на интерфейс
 
 ```
 conf ter
@@ -50,11 +50,16 @@ ip prefix-list Route-R3 permit 0.0.0.0/0
 router eigrp NG
         address-family ipv4 autonomous-system 1
         topology base
-        distribute-list Route-R3 out e0/3
+        distribute-list Q out e0/3
 
-
-
-
+```
+Второй вариант сделать на R16 суммаризацию 0.0.0.0/0 на интерфейсе в сторону R32
+```
+conf ter
+    ip prefix-list Route-R3 permit 0.0.0.0/0
+    router eigrp NG
+    f-interface e0/3
+    summary-address 0.0.0.0 0.0.0.0
 ```
 ###    Задча: 3. R16-17 анонсируют только суммарные префиксы.
 Настройка суммарного маршрута на R17 в сторону R18
