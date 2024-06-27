@@ -1,0 +1,138 @@
+R17#show run
+Building configuration...
+
+Current configuration : 1447 bytes
+!
+! Last configuration change at 14:27:19 EET Thu Jun 27 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R17
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+key chain kEIGRP
+ key 1
+  key-string cisco
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback17
+ description loopback
+ ip address 10.60.17.1 255.255.255.252
+!
+interface Ethernet0/0
+ no ip address
+ shutdown
+!
+interface Ethernet0/1
+ description to_R18_e0/1
+ ip address 10.60.18.102 255.255.255.252
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+!
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+  af-interface Ethernet0/1
+   summary-address 10.60.17.0 255.255.255.0
+   authentication mode md5
+   authentication key-chain kEIGRP
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+  network 10.60.17.0 0.0.0.3
+  network 10.60.18.100 0.0.0.3
+  eigrp router-id 10.0.0.17
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+

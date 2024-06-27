@@ -1,0 +1,144 @@
+
+R18#show run
+Building configuration...
+
+Current configuration : 1603 bytes
+!
+! Last configuration change at 14:27:50 EET Thu Jun 27 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R18
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+key chain kEIGRP
+ key 1
+  key-string cisco
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback18
+ description loopback
+ ip address 10.60.18.1 255.255.255.252
+!
+interface Ethernet0/0
+ description to_R16_e0/1
+ ip address 10.60.18.129 255.255.255.252
+!
+interface Ethernet0/1
+ description to_R17_e0/1
+ ip address 10.60.18.101 255.255.255.252
+!
+interface Ethernet0/2
+ description to_R24_e0/3
+ ip address 10.40.60.2 255.255.255.252
+ shutdown
+!
+interface Ethernet0/3
+ description to_R26_e0/3
+ ip address 10.60.40.1 255.255.255.252
+!
+!
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+  af-interface Ethernet0/1
+   authentication mode md5
+   authentication key-chain kEIGRP
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+  network 10.60.18.0 0.0.0.7
+  network 10.60.18.100 0.0.0.3
+  network 10.60.18.128 0.0.0.3
+  eigrp router-id 10.0.0.18
+ exit-address-family
+!
+!
+router eigrp ng
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
