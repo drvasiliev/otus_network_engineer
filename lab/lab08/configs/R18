@@ -1,10 +1,11 @@
 
+
 R18#show run
 Building configuration...
 
-Current configuration : 1603 bytes
+Current configuration : 1729 bytes
 !
-! Last configuration change at 14:27:50 EET Thu Jun 27 2024
+! Last configuration change at 19:33:51 EET Thu Jun 27 2024
 !
 version 15.4
 service timestamps debug datetime msec
@@ -104,6 +105,7 @@ router eigrp NG
   exit-af-interface
   !
   topology base
+   redistribute static metric 10000 10 100 200 1500
   exit-af-topology
   network 10.60.18.0 0.0.0.7
   network 10.60.18.100 0.0.0.3
@@ -119,6 +121,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.40.60.1
+ip route 0.0.0.0 0.0.0.0 10.60.40.2 5
 !
 !
 !
@@ -141,4 +145,3 @@ line vty 0 4
 !
 !
 end
-
