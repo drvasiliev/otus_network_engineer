@@ -50,7 +50,7 @@ router eigrp NG
  topologe base
     redistribute static metric 10000 10 100 200 1500
    
-первый варина создадим prefix-list на R16 в сторону R32 и будем передавать только маршрут по умолчанию 0.0.0.0/0, после чего добавим на интерфейс
+первый варинат создадим prefix-list на R16 в сторону R32 и будем передавать только маршрут по умолчанию 0.0.0.0/0, после чего добавим на интерфейс
 
 ```
 conf ter
@@ -66,7 +66,8 @@ router eigrp NG
 conf ter
     ip prefix-list Route-R3 permit 0.0.0.0/0
     router eigrp NG
-    f-interface e0/3
+    address-family ipv4 autonomous-system 1
+    af-interface e0/3
     summary-address 0.0.0.0 0.0.0.0
 ```
 ###    Задча: 3. R16-17 анонсируют только суммарные префиксы.
