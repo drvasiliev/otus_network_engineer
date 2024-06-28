@@ -41,8 +41,15 @@ router eigrp NG  af-interface Ethernet0/1
    authentication key-chain kEIGRP
 
 Выполнить надо с обеих сторон.
+
 ```
 ###    Задча: 2. R32 получает только маршрут по умолчанию.
+НА R18 дополнительно распространим маршрут по умолчанию через redistribute
+router eigrp NG
+ address-family ipv4 unicast autonomous-system 1
+ topologe base
+    redistribute static metric 10000 10 100 200 1500
+   
 первый варина создадим prefix-list на R16 в сторону R32 и будем передавать только маршрут по умолчанию 0.0.0.0/0, после чего добавим на интерфейс
 
 ```
