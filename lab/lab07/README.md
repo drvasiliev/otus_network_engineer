@@ -24,6 +24,7 @@ interface Ethernet0/1
     ip router isis 23
 interface Ethernet0/2
     ip router isis 23
+    
 
 R25
 conf ter
