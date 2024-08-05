@@ -44,6 +44,8 @@ router ospf 1
  network 10.70.14.128 0.0.0.3 area 0
  network 10.70.15.100 0.0.0.3 area 0
 ```
+![alt text](image-2.png)
+
 
 ```
 R13
@@ -53,6 +55,7 @@ router ospf 1
  network 10.70.14.100 0.0.0.3 area 0
  network 10.70.15.128 0.0.0.3 area 0
 ```
+![alt text](image-1.png)
 ##### Добавление маршрутосв по умолчанию
 ```
 R15
@@ -71,4 +74,10 @@ default-information originate
 ###### Маршрутизатор R20 находится в зоне 102 и получает все маршруты, кроме маршрутов до сетей зоны 101.
 
 ```
+R20
+router ospf 1
+ router-id 20.20.20.20
+ network 10.70.19.0 0.0.0.7 area 0
+ network 10.70.20.0 0.0.0.7 area 102
+ network 10.70.20.100 0.0.0.3 area 0
 ```
