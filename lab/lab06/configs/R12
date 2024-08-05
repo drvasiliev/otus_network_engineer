@@ -105,7 +105,7 @@ interface Ethernet1/3
 !
 router ospf 1
  router-id 12.12.12.12
- network 10.70.12.0 0.0.0.7 area 0
+ network 10.70.12.0 0.0.0.7 area 10
  network 10.70.14.128 0.0.0.3 area 0
  network 10.70.15.100 0.0.0.3 area 0
 !
