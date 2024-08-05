@@ -77,12 +77,22 @@ router ospf 1
 ```
 
 ###### Маршрутизатор R20 находится в зоне 102 и получает все маршруты, кроме маршрутов до сетей зоны 101.
-
+```
+Создадим prefix-list для фильтрации маршв на in и отсечем сеть 10.70.19.0/29
+После чего применим его на ospf 1
+```
 ```
 R20
+ip prefix-list test seq 5 deny 10.70.19.0/29 le 32
+ip prefix-list test seq 10 permit 10.70.0.0/16 le 32
+ip prefix-list test seq 15 permit 0.0.0.0/0
+
+
 router ospf 1
  router-id 20.20.20.20
  network 10.70.19.0 0.0.0.7 area 0
  network 10.70.20.0 0.0.0.7 area 102
  network 10.70.20.100 0.0.0.3 area 0
+ distribute-list prefix test in
+
 ```
