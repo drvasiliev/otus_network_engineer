@@ -52,8 +52,19 @@ router ospf 1
  network 10.70.13.0 0.0.0.7 area 0
  network 10.70.14.100 0.0.0.3 area 0
  network 10.70.15.128 0.0.0.3 area 0
-
 ```
+##### Добавление маршрутосв по умолчанию
+```
+R15
+router ospf 1
+default-information originate
+
+R14
+router ospf 1
+default-information originate
+```
+
+
 ```
 ```
 ```
