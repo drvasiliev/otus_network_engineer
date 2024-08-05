@@ -1,0 +1,130 @@
+R20(config-router)#do show run
+Building configuration...
+
+Current configuration : 1499 bytes
+!
+! Last configuration change at 20:59:49 EET Mon Aug 5 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R20
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.70.20.1 255.255.255.248
+!
+interface Ethernet0/0
+ description to_R15_e0/3
+ ip address 10.70.20.101 255.255.255.252
+!
+interface Ethernet0/1
+ no ip address
+ shutdown
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 20.20.20.20
+ network 10.70.19.0 0.0.0.7 area 0
+ network 10.70.20.0 0.0.0.7 area 102
+ network 10.70.20.100 0.0.0.3 area 0
+ distribute-list prefix test in
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list FILTER_OSPF_IN_10.70.19.0 seq 10 deny 10.70.19.0/24 le 32
+ip prefix-list FILTER_OSPF_IN_10.70.19.0 seq 20 permit 10.0.0.0/24 le 32
+!
+ip prefix-list test seq 5 deny 10.70.19.0/29 le 32
+ip prefix-list test seq 10 permit 10.70.0.0/16 le 32
+ip prefix-list test seq 15 permit 0.0.0.0/0
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
