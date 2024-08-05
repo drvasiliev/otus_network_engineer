@@ -71,7 +71,8 @@ default-information originate
 Создадим prefix-list для фильтрации всех сетей на in и разрешим только маршрут по умолчанию
 После чего применим его на ospf 1
 ```
-
+до применения фильтра
+![alt text](image-6.png)
 ```
 R19
 
@@ -85,12 +86,15 @@ router ospf 1
  network 10.70.19.100 0.0.0.3 area 0
  distribute-list prefix R19_IN in
 ```
+![alt text](image-3.png)
 
 ###### Маршрутизатор R20 находится в зоне 102 и получает все маршруты, кроме маршрутов до сетей зоны 101.
 ```
 Создадим prefix-list для фильтрации  сетей на in и отсечем сеть 10.70.19.0/29
 После чего применим его на ospf 1
 ```
+до применения фильтра
+![alt text](image-5.png)
 ```
 R20
 ip prefix-list test seq 5 deny 10.70.19.0/29 le 32
@@ -106,3 +110,4 @@ router ospf 1
  distribute-list prefix test in
 
 ```
+![alt text](image-4.png)
