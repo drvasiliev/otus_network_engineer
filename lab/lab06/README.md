@@ -40,7 +40,7 @@ router ospf 1
 R12
 router ospf 1
  router-id 12.12.12.12
- network 10.70.12.0 0.0.0.7 area 0
+ network 10.70.12.0 0.0.0.7 area 10
  network 10.70.14.128 0.0.0.3 area 0
  network 10.70.15.100 0.0.0.3 area 0
 ```
@@ -51,7 +51,7 @@ router ospf 1
 R13
 router ospf 1
  router-id 13.13.13.13
- network 10.70.13.0 0.0.0.7 area 0
+ network 10.70.13.0 0.0.0.7 area 10
  network 10.70.14.100 0.0.0.3 area 0
  network 10.70.15.128 0.0.0.3 area 0
 ```
