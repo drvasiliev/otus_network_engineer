@@ -8,3 +8,4 @@
 6. [OSPF](lab06/).
 7. [is-is](lab07/).
 8. [EIGRP](lab08/).
+9. [BGP. Основы](lab09/).
