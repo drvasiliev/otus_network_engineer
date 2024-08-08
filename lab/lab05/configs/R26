@@ -1,14 +1,14 @@
-R27#show run
+R26#show run
 Building configuration...
 
-Current configuration : 1241 bytes
+Current configuration : 1503 bytes
 !
 version 15.4
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname R27
+hostname R26
 !
 boot-start-marker
 boot-end-marker
@@ -65,25 +65,31 @@ redundancy
 !
 !
 !
-interface Loopback27
+interface Loopback0
+ ip address 8.8.8.8 255.255.255.255
+!
+interface Loopback26
  description loopback
- ip address 10.30.27.1 255.255.255.0
+ ip address 10.40.26.1 255.255.255.255
+ ip router isis 26
 !
 interface Ethernet0/0
- description to_R25_e0/1
- ip address 10.30.40.1 255.255.255.252
+ description to_R24_e0/1
+ ip address 10.40.24.102 255.255.255.252
+ ip router isis 26
 !
 interface Ethernet0/1
- no ip address
- shutdown
+ description to_R28_e0/0
+ ip address 10.50.40.2 255.255.255.252
 !
 interface Ethernet0/2
- no ip address
- shutdown
+ description to_R25_e0/2
+ ip address 10.40.26.101 255.255.255.252
+ ip router isis 26
 !
 interface Ethernet0/3
- no ip address
- shutdown
+ description to_R18_e0/3
+ ip address 10.60.40.2 255.255.255.252
 !
 interface Ethernet1/0
  no ip address
@@ -101,13 +107,15 @@ interface Ethernet1/3
  no ip address
  shutdown
 !
-ip default-gateway 10.30.40.2
+router isis 26
+ net 49.0026.0100.5002.6001.00
+!
 ip forward-protocol nd
 !
 !
 no ip http server
 no ip http secure-server
-ip route 0.0.0.0 0.0.0.0 10.30.40.2
+ip route 10.50.0.0 255.255.0.0 10.50.40.1
 !
 !
 !

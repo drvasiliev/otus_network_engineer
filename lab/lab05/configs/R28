@@ -1,0 +1,169 @@
+R28#show run
+Building configuration...
+
+Current configuration : 2116 bytes
+!
+! Last configuration change at 08:45:30 EET Thu Aug 8 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R28
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+track 1 ip sla 1 reachability
+ delay down 5 up 5
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback28
+ description loopback
+ no ip address
+!
+interface Ethernet0/0
+ description to_R26_e0/1
+ ip address 10.50.40.1 255.255.255.252
+!
+interface Ethernet0/1
+ description to_R25_e0/3
+ ip address 10.40.50.2 255.255.255.252
+!
+interface Ethernet0/2
+ description to_SW29_e0/2
+ no ip address
+ ip policy route-map vlan30
+!
+interface Ethernet0/2.28
+ description SW_29
+ encapsulation dot1Q 28
+ ip address 10.50.28.1 255.255.255.0
+!
+interface Ethernet0/2.30
+ description VLAN_VPC30
+ encapsulation dot1Q 30
+ ip address 10.50.30.1 255.255.255.0
+ ip policy route-map vlan30
+!
+interface Ethernet0/2.31
+ description VLAN_VPC31
+ encapsulation dot1Q 31
+ ip address 10.50.31.1 255.255.255.0
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.40.50.1 5 track 1
+ip route 0.0.0.0 0.0.0.0 10.50.40.2 10
+!
+ip access-list standard vlan30-ACL
+ permit 10.50.30.0 0.0.0.255
+!
+ip sla 1
+ icmp-echo 10.40.50.1 source-ip 10.40.50.2
+ threshold 1000
+ timeout 1000
+ frequency 5
+ip sla schedule 1 life forever start-time now
+!
+route-map vlan30 permit 10
+ description RM to R27
+ match ip address vlan30 vlan30-ACL
+ set ip next-hop 10.50.40.2
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
