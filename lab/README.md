@@ -9,3 +9,4 @@
 7. [is-is](lab07/).
 8. [EIGRP](lab08/).
 9. [BGP. Основы](lab09/).
+10. [iBGP.](lab10/).
