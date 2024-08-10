@@ -31,9 +31,64 @@ R15
 ![alt text](image-1.png)
 
 ### Задча: 2. Настроите iBGP в провайдере Триада, с использованием RR.
+- Настроим R24 и R26 как RR, R23 и R25 - будут клиентами. Так же R24 для R26 будет клиентом и наоборот.
+
+R24
+```
+router bgp 520
+ bgp log-neighbor-changes
+ network 10.40.0.0 mask 255.255.0.0
+ neighbor 10.40.20.2 remote-as 301
+ neighbor 10.40.23.1 remote-as 520
+ neighbor 10.40.23.1 update-source Loopback24
+ neighbor 10.40.23.1 route-reflector-client
+ neighbor 10.40.23.1 next-hop-self
+ neighbor 10.40.26.1 remote-as 520
+ neighbor 10.40.26.1 update-source Loopback24
+ neighbor 10.40.26.1 route-reflector-client
+ neighbor 10.40.26.1 next-hop-self
+ neighbor 10.40.60.2 remote-as 2042
 
 ```
+
+R26
 ```
+router bgp 520
+ bgp log-neighbor-changes
+ network 10.40.0.0 mask 255.255.255.248
+ neighbor 10.40.24.1 remote-as 520
+ neighbor 10.40.24.1 update-source Loopback26
+ neighbor 10.40.24.1 route-reflector-client
+ neighbor 10.40.24.1 next-hop-self
+ neighbor 10.40.25.1 remote-as 520
+ neighbor 10.40.25.1 update-source Loopback26
+ neighbor 10.40.25.1 route-reflector-client
+ neighbor 10.40.25.1 next-hop-self
+ neighbor 10.60.40.1 remote-as 2042
+
+```
+
+R25
+```
+router bgp 520
+ bgp log-neighbor-changes
+ neighbor 10.40.23.1 remote-as 520
+ neighbor 10.40.23.1 update-source Loopback25
+ neighbor 10.40.23.1 next-hop-self
+ neighbor 10.40.26.1 remote-as 520
+ neighbor 10.40.26.1 update-source Loopback25
+```
+R23
+```
+router bgp 520
+ bgp log-neighbor-changes
+ neighbor 10.40.24.1 remote-as 520
+ neighbor 10.40.24.1 update-source Loopback23
+ neighbor 10.40.25.1 remote-as 520
+ neighbor 10.40.25.1 update-source Loopback23
+```
+- Проверил доступность пингами с R23 и R25 пингом до R18 - у него адрес 
+10.60.18.1 пинги проходят.
 
 ### Задча: 3. Настройте офиса Москва так, чтобы приоритетным провайдером стал Ламас.
 ```
