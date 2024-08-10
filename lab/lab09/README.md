@@ -11,7 +11,7 @@
 
 ### Задча: 1. Настроите eBGP между офисом Москва и двумя провайдерами - Киторн и Ламас.
 - Поочередно настроим bgp на R14, R15, R21, R22
-R14
+- R14
 ```
 router bgp 1001
  bgp log-neighbor-changes
@@ -22,7 +22,7 @@ ip route 10.70.0.0 255.255.0.0 Null0
 
 ```
 
-R15
+- R15
 ```
 # router bgp 1001
     bgp log-neighbor-changes
@@ -33,7 +33,7 @@ R15
 
 ```
 
-R21
+- R21
 ```
 # router bgp 301
     bgp log-neighbor-changes
@@ -44,7 +44,7 @@ R21
 
 ```
 
-R22
+- R22
 ```
 router bgp 101
 # bgp log-neighbor-changes
@@ -56,13 +56,13 @@ router bgp 101
 
 ```
 ### Задча: 2. Настроите eBGP между провайдерами Киторн и Ламас
-R21
+- R21
 ```
 router bgp 101
 neighbor 10.10.20.2 remote-as 301
 
 ```
-R22
+- R22
 ```
 router bgp 301
 neighbor 10.10.20.1 remote-as 101
@@ -70,12 +70,12 @@ neighbor 10.10.20.1 remote-as 101
 ```
 
 ### Задча: 3. Настроите eBGP между Ламас и Триада
-R21
+- R21
 ```
 # router bgp 301
     neighbor 10.40.20.1 remote-as 520
 ```
-R24
+- R24
 ```
 # router bgp 520
     neighbor 10.40.20.2 remote-as 301
@@ -85,12 +85,12 @@ R24
 
 ### Задча: 4. Настроите eBGP между офисом С.-Петербург и провайдером Триада
 
-R24
+- R24
 ```
 # router bgp 520
     neighbor 10.40.60.2 remote-as 2042
 ```
-R26
+- R26
 ```
 # router bgp 520
     bgp log-neighbor-changes
@@ -100,7 +100,7 @@ R26
 # ip route 10.40.0.0 255.255.0.0 Null0
 ```
 
-R18
+- R18
 ```
 # router bgp 2042
     bgp log-neighbor-changes
@@ -117,12 +117,14 @@ R18
 ```  
 Не совсем понятно, они ведь и так доступны.      
 ```
-R18
+- R18
 
 ![alt text](image.png)
-R15
+
+- R15
 
 ![alt text](image-2.png)
 
-R14
+- R14
+
 ![alt text](image-3.png)
