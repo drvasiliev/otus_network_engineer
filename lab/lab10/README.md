@@ -24,7 +24,7 @@ R15
 № router bgp 1001
     neighbor 10.70.14.1 remote-as 1001
     neighbor 10.70.14.1 update-source Loopback1
-
+    neighbor 10.70.14.1 next-hop self
 ```
 Пример с R14
 ![alt text](image.png)
@@ -91,8 +91,43 @@ router bgp 520
 10.60.18.1 пинги проходят.
 
 ### Задча: 3. Настройте офиса Москва так, чтобы приоритетным провайдером стал Ламас.
+- Настраивать будем приориет в обе стороны.
+- Создадим route-map RM-LAMAS и поменяем local-preference на 110, тога маршруты полученные от R15 на R14 будут более приоритетные чем от R22. Это для исходящего трафика.
+
+R15
 ```
+# route-map RM-LAMAS permit 10
+    set local-preference 110
+# router bgp 1001
+    neighbor 10.70.20.2 route-map RM-LAMAS in 
+
 ```
+- Проверяем:
+
+![alt text](image-2.png)
+
+- Теперь настрои R14 так - что бы входящийй трафик в Москву был приоритетнее с Ламас, для этого создадим route-map и изменим as-path. Тем самым маршрут до Москвы на Критон R22 будет идти через ЛАМАС.
+R14
+```
+# route-map RM-KITORN-OUT permit 10
+    set as-path prepend 1001 1001
+
+# router bgp 1001
+    neighbor 10.10.70.1 route-map RM-KITORN-OUT out
+
+```
+- Проверяем на R22
+![alt text](image-3.png)
+
+
 ### Задча: 4. Настройте офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.
+- Я так понимаю что надо ввести скрытую команду на R18, но пеочему-то не взлетает.
+R18
 ```
+router bgp 2042
+     bgp bestpath as-path multipath-relax
+
 ```
+
+- Не понимаЮ
+![alt text](image-4.png)
