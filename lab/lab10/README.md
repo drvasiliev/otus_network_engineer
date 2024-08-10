@@ -11,7 +11,7 @@
 ### Задча: 1. Настроите iBGP в офисом Москва между маршрутизаторами R14 и R15.
 
 
-R14
+- R14
 ```
 № router bgp 1001
     neighbor 10.70.15.1 remote-as 1001
@@ -19,7 +19,7 @@ R14
 
 ```
 
-R15
+- R15
 ```
 № router bgp 1001
     neighbor 10.70.14.1 remote-as 1001
@@ -33,7 +33,7 @@ R15
 ### Задча: 2. Настроите iBGP в провайдере Триада, с использованием RR.
 - Настроим R24 и R26 как RR, R23 и R25 - будут клиентами. Так же R24 для R26 будет клиентом и наоборот.
 
-R24
+- R24
 ```
 router bgp 520
  bgp log-neighbor-changes
@@ -51,7 +51,7 @@ router bgp 520
 
 ```
 
-R26
+- R26
 ```
 router bgp 520
  bgp log-neighbor-changes
@@ -68,7 +68,7 @@ router bgp 520
 
 ```
 
-R25
+- R25
 ```
 router bgp 520
  bgp log-neighbor-changes
@@ -78,7 +78,7 @@ router bgp 520
  neighbor 10.40.26.1 remote-as 520
  neighbor 10.40.26.1 update-source Loopback25
 ```
-R23
+- R23
 ```
 router bgp 520
  bgp log-neighbor-changes
@@ -94,7 +94,7 @@ router bgp 520
 - Настраивать будем приориет в обе стороны.
 - Создадим route-map RM-LAMAS и поменяем local-preference на 110, тога маршруты полученные от R15 на R14 будут более приоритетные чем от R22. Это для исходящего трафика.
 
-R15
+- R15
 ```
 # route-map RM-LAMAS permit 10
     set local-preference 110
@@ -122,7 +122,7 @@ R14
 
 ### Задча: 4. Настройте офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.
 - Я так понимаю что надо ввести скрытую команду на R18, но пеочему-то не взлетает.
-R18
+- R18
 ```
 router bgp 2042
      bgp bestpath as-path multipath-relax
@@ -130,4 +130,5 @@ router bgp 2042
 ```
 
 - Не понимаЮ
+
 ![alt text](image-4.png)
