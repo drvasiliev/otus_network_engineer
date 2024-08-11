@@ -35,7 +35,15 @@
 - Предположим что транзитный трафик для СПБ это AS301, задачу будем выполнять при помощу Prefix-list на входящем интерфейсе.
 - R18
 ```
-
+# ip prefix-list 1 seq 5 permit 10.70.0.0/16 le 32
+# ip prefix-list 1 seq 10 permit 10.40.0.0/16 le 32
+    После чего создаем route-map и матчим к нему prefix-list
+# route-map triada-in permit 10
+    match ip address prefix-list 1
+    После вешаем route map на соседа в bgp
+# router bgp 2042
+     neighbor 10.40.60.1 route-map triada-in in
+    neighbor 10.60.40.2 route-map triada-in in
 ```
 
 ### Задча: 3. Настроить провайдера Киторн так, чтобы в офис Москва отдавался только маршрут по умолчанию.
