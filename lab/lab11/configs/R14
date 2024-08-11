@@ -1,0 +1,140 @@
+
+R14#show run
+Building configuration...
+
+Current configuration : 1868 bytes
+!
+! Last configuration change at 20:02:56 EET Sun Aug 11 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R14
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.70.14.1 255.255.255.248
+!
+interface Ethernet0/0
+ description to_R12_e0/2
+ ip address 10.70.14.129 255.255.255.252
+!
+interface Ethernet0/1
+ description to_R13_e0/3
+ ip address 10.70.14.101 255.255.255.252
+!
+interface Ethernet0/2
+ description to_R22_e0/0
+ ip address 10.10.70.2 255.255.255.252
+!
+interface Ethernet0/3
+ description to_R19_e0/0
+ ip address 10.70.19.102 255.255.255.252
+!
+router ospf 1
+ router-id 14.14.14.14
+ network 10.70.14.0 0.0.0.7 area 0
+ network 10.70.14.100 0.0.0.3 area 0
+ network 10.70.14.128 0.0.0.3 area 0
+ network 10.70.19.100 0.0.0.3 area 0
+ default-information originate
+!
+router bgp 1001
+ bgp router-id 10.70.14.1
+ bgp log-neighbor-changes
+ network 10.70.0.0 mask 255.255.0.0
+ neighbor 10.10.70.1 remote-as 101
+ neighbor 10.10.70.1 soft-reconfiguration inbound
+ neighbor 10.10.70.1 route-map RM-KITORN-OUT out
+ neighbor 10.10.70.1 filter-list 1 in
+ neighbor 10.70.15.1 remote-as 1001
+ neighbor 10.70.15.1 update-source Loopback1
+!
+ip forward-protocol nd
+!
+ip as-path access-list 1 permit ^101_.*_2042$
+!
+no ip http server
+no ip http secure-server
+ip route 10.70.0.0 255.255.0.0 Null0
+!
+!
+route-map RM-KITORN-OUT permit 10
+ set as-path prepend 1001 1001
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end

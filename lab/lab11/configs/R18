@@ -1,0 +1,161 @@
+R18#show run
+Building configuration...
+
+Current configuration : 2206 bytes
+!
+! Last configuration change at 20:20:55 EET Sun Aug 11 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R18
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+key chain kEIGRP
+ key 1
+  key-string cisco
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback18
+ description loopback
+ ip address 10.60.18.1 255.255.255.252
+!
+interface Ethernet0/0
+ description to_R16_e0/1
+ ip address 10.60.18.129 255.255.255.252
+!
+interface Ethernet0/1
+ description to_R17_e0/1
+ ip address 10.60.18.101 255.255.255.252
+!
+interface Ethernet0/2
+ description to_R24_e0/3
+ ip address 10.40.60.2 255.255.255.252
+!
+interface Ethernet0/3
+ description to_R26_e0/3
+ ip address 10.60.40.1 255.255.255.252
+!
+!
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+  af-interface Ethernet0/1
+   authentication mode md5
+   authentication key-chain kEIGRP
+  exit-af-interface
+  !
+  topology base
+   redistribute static metric 10000 10 100 200 1500
+  exit-af-topology
+  network 10.60.18.0 0.0.0.7
+  network 10.60.18.100 0.0.0.3
+  network 10.60.18.128 0.0.0.3
+  eigrp router-id 10.0.0.18
+ exit-address-family
+!
+!
+router eigrp ng
+!
+router bgp 2042
+ bgp log-neighbor-changes
+ bgp bestpath as-path multipath-relax
+ network 10.60.18.0 mask 255.255.255.252
+ network 10.60.18.1 mask 255.255.255.255
+ neighbor 10.40.60.1 remote-as 520
+ neighbor 10.40.60.1 route-map triada-in in
+ neighbor 10.60.40.2 remote-as 520
+ neighbor 10.60.40.2 route-map triada-in in
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.40.60.1
+ip route 0.0.0.0 0.0.0.0 10.60.40.2 5
+!
+!
+ip prefix-list 1 seq 5 permit 10.70.0.0/16 le 32
+ip prefix-list 1 seq 10 permit 10.40.0.0/16 le 32
+!
+route-map triada-in permit 10
+ match ip address prefix-list 1
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
