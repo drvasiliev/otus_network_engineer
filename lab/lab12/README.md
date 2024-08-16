@@ -11,13 +11,30 @@
 7. Настроите NTP сервер на R12 и R13. Все устройства в офисе Москва должны синхронизировать время с R12 и R13.
 8. Все офисы в лабораторной работе должны иметь IP связность.
 ### Задча: 1. Настроите NAT(PAT) на R14 и R15. Трансляция должна осуществляться в адрес автономной системы AS1001
-- Допустим что транзитный трафик для Москвы это AS520 Триада, задачу будем выполнять при помощи as-path на R15
+- Создадим access-list, полче чего создадим правило nat
+ R14
+```
+# access-list 100 permit ip 10.70.0.0 0.0.255.255 any
+# ip nat source list 100 interface Ethernet0/2 overload
+
+# int e0/2
+    ip nat inside
+    ip nat enable
+```
+- но почему то ничего не показывает в Show ip nat translations - не пойму что нужно сделать
+
 - R15
 ```
-# ip as-path access-list 1 permit ^301_.*_2042$ (разрешаем только трафик проходящий чререз соседа для AS-2042)
+# access-list 113 permit ip 10.70.0.0 0.0.255.255 any
+# ip nat source list 113 interface Ethernet0/2 overload
 
-# router bgp 1001
-    neighbor 10.70.20.2 filter-list 1 in
+# int e0/2
+    ip nat inside
+    ip nat enable
+# interface loopback 1
+    ip nat enable
+# int e0/0
+    ip nat enable
 
 ```
 ### Задча: 2.Настроите NAT(PAT) на R18. Трансляция должна осуществляться в пул из 5 адресов автономной системы AS2042.
