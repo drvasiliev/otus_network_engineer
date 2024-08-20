@@ -87,19 +87,60 @@ interface Loopback1
 
 
 ### Задча: 4.Настроите NAT так, чтобы R19 был доступен с любого узла для удаленного управления.
-- Не пойму что надо сделать, пробросить NAT 22, 23 порт 
+- Не пойму что надо сделать, пробросить NAT 22, 23 порт  проброс порта из вне?
 ```
 
 
 ```
 ### Задча: 5.Настроите статический NAT(PAT) для офиса Чокурдах.
-- 
+- не пойму что надо сделать? 
 ```
 ```
 ### Задча: 6.Настроите для IPv4 DHCP сервер в офисе Москва на маршрутизаторах R12 и R13. VPC1 и VPC7 должны получать сетевые настройки по DHCP.
-- 
+- R12 
 ```
+# ip dhcp pool VLAN100
+ network 10.70.100.0 255.255.255.0
+ default-router 10.70.100.1
+ domain-name moscow.ru
+
+# interface Ethernet0/0.100
+ description to_SW4
+ encapsulation dot1Q 100
+ ip address 10.70.100.1 255.255.255.0
+
 ```
+- на коммутаторах создаем vlan, настраиваем порты в нужном режиме работы пример на ыц3 конечный коммутатор для vpc1
+
+```
+interface Ethernet0/0
+ description to_Sw4_e0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+
+
+interface Ethernet0/2
+ description tVPC1
+ switchport access vlan 100
+ switchport mode access
+
+```
+![alt text](image-3.png)
+- Аналогичные настройки делаем на R13 только другой влан
+```
+ip dhcp pool VLAN113
+ network 10.70.113.0 255.255.255.0
+ default-router 10.70.113.1
+
+
+interface Ethernet0/0.113
+ description DHCP_VLAN113
+ encapsulation dot1Q 113
+ ip address 10.70.113.1 255.255.255.0
+
+```
+![alt text](image-4.png)
+
 ### Задча: 7.Настроите NTP сервер на R12 и R13. Все устройства в офисе Москва должны синхронизировать время с R12 и R13.
 - 
 ```
