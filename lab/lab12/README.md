@@ -18,8 +18,12 @@
 # ip nat source list 100 interface Ethernet0/2 overload
 
 # int e0/2
-    ip nat inside
+    ip nat outside
     ip nat enable
+
+# int loopback 1
+    ip nat inside
+
 ```
 - но почему то ничего не показывает в Show ip nat translations - не пойму что нужно сделать
 
@@ -29,14 +33,13 @@
 # ip nat source list 113 interface Ethernet0/2 overload
 
 # int e0/2
-    ip nat inside
+    ip nat outside
     ip nat enable
 # interface loopback 1
-    ip nat enable
-# int e0/0
-    ip nat enable
+    ip nat inside
 
 ```
+- не пойму как проверить, в команде  show ip nat translations пусто, что-то я делаю не так. 
 ### Задча: 2.Настроите NAT(PAT) на R18. Трансляция должна осуществляться в пул из 5 адресов автономной системы AS2042.
 
 
