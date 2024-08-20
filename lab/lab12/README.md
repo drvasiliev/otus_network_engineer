@@ -15,7 +15,7 @@
  R14
 ```
 # access-list 100 permit ip 10.70.0.0 0.0.255.255 any
-# ip nat source list 100 interface Ethernet0/2 overload
+# ip nat inside source list 100 interface Ethernet0/2 overload
 
 # int e0/2
     ip nat outside
@@ -30,7 +30,7 @@
 - R15
 ```
 # access-list 113 permit ip 10.70.0.0 0.0.255.255 any
-# ip nat source list 113 interface Ethernet0/2 overload
+# ip nat inside source list 113 interface Ethernet0/2 overload
 
 # int e0/2
     ip nat outside
@@ -39,7 +39,9 @@
     ip nat inside
 
 ```
-- не пойму как проверить, в команде  show ip nat translations пусто, что-то я делаю не так. 
+- проверка для R15
+
+![alt text](image.png)
 ### Задча: 2.Настроите NAT(PAT) на R18. Трансляция должна осуществляться в пул из 5 адресов автономной системы AS2042.
 
 
