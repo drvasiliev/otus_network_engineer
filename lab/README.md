@@ -18,5 +18,5 @@
 
 - IP_Plan:
 1. [Таблица ip aдресов](files/).
-2. [Схема сети с ip адресами](Otus_lab.PNG).
+2. [Схема сети с ip адресами](/otus_network_engineer/lab/Otus_lab.png).
 3. [Конфигурации роутеров](configs/).
